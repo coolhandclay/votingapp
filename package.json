@@ -1,5 +1,5 @@
 {
-  "name": "satsuma",
+  "name": "clayvotingapp",
   "version": "1.0.1",
   "description": "A voting app built on Clementine.js",
   "main": "server.js",
