@@ -1,0 +1,27 @@
+extends layout
+
+block content
+    br
+    div.container
+        img(src="/public/img/clementine_150.png")
+        br
+        p.clementine-text Satsuma
+        p.menu An app for creating, taking, and sharing polls. Built w/ Clementine.js.
+    br
+    div.container
+        div.btn-container
+            - var create = '/create/poll';
+            a(href='/create/poll')
+                button(class='btn') Create Poll
+            a(href='/')
+                button(class='btn') All Polls
+            a(href='/mypolls')
+                button(class='btn') My Polls
+    br
+    ul
+        each poll in polls
+            - var href = '/poll/' + poll._id;
+            div
+                a(href=href)
+                    button(class='btn btn-poll')= poll.name
+                    

@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    div#question-block
+        h1(id='title')= poll.name
+        br
+        div(class=btn-container)
+            each option in poll.options
+                form(id='option-form' method='post')
+                    button.btn(name='name' value=option.name)= option.name
+        br
+        a(target='_blank' id='twitter-button')
+            button.twitter-share-button.fa.fa-twitter.btn-lg
+    if isLoggedIn
+        a(href='/')
+            button.btn-danger.btn-sm.btn-delete= 'Delete'

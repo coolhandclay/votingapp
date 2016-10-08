@@ -42,7 +42,7 @@ p {
 /****** Header Styling ******/
 
 header p {
-	margin: 16px 0 5px 0;
+	margin: 5px 0 5px 0;
 }
 
 .menu {
@@ -94,7 +94,7 @@ header a ~ p {
 
 .btn > img {
 	float: left;
-	margin-left: 10px
+	margin-left: 10px;
 }
 
 /****** Logo Div Styling ******/
@@ -114,8 +114,11 @@ img {
 
 /****** Click Styling ******/
 
+#option-form {
+	display: inline-block;
+}
+
 .btn-container {	/* Styling for the div that contains the buttons */
-	margin: -10px auto 0 auto;
 	text-align: center;
 }
 
@@ -143,8 +146,14 @@ img {
 }
 
 .btn-delete {	/* Styling for delete button */
-	background-color: #ECEFF1;
 	color: #212121;
+	margin-top: 10px; 
+}
+
+.btn-poll {
+	background-color: #99CCCC;
+	width: 70%;
+	margin-bottom: 2px;
 }
 
 #click-nbr {
@@ -198,7 +207,27 @@ span {
 }
 
 #menu-divide {
-	color: #FFFFFF;
+	color: black;
 	display: inline;
-	margin: 0;
+}
+
+#question {
+	font-size: 32px;
+	height: 10%;
+	width: 100%;
+}
+
+#question-block {
+	vertical-align: middle;
+	height: 100%;
+	margin-top: 20%;
+}
+
+#myChart {
+	width: 400px;
+	height: 400px;
+}
+
+#twitter-button {
+	background-color: white;
 }

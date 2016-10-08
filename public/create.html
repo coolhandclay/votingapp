@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Satsuma - A Voting App w/ Clementine.js</title>
+        <link href="/public/css/main.css" rel="stylesheet" type="text/css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="/controllers/addInput.client.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <header>
+        <a class="menu" href="/">Home</a>
+		<p id="menu-divide">|</p>
+		<a class="menu" href="/profile">Profile</a>
+		<p id="menu-divide">|</p>
+		<a class="menu" href="/logout">Logout</a>
+	</header>
+    <body>
+        <div class="container">
+            
+            <form id="pollForm" method="post">
+                <div class="form-group">
+                    <label for="question">Poll Question?</label>
+                    <div><input pattern=".{1,70}" required="required" id="question" class="form-control" type="question" placeholder="What's your favorite vegetable?" name="question"/></div>
+                </div>
+                <div id='inputList' class="form-group">
+                    <label for="answer">Choices:</label>
+                    <div><input pattern=".{1,12}" required="required" id="answer" class="form-control" type="answer" placeholder="12 char max" name="options"/></div>
+                    <div><input pattern=".{1,12}" required="required" id="answer" class="form-control" type="answer" placeholder="zucchini" name="options"/></div>
+                </div>
+                <button class='btn btn-default' type="button" onClick="addInput('inputList')">Add'l Option</button>
+                <button class='btn' type="submit">Save</button>
+            </form>
+        </div>
+    </body>
+
+</html>
