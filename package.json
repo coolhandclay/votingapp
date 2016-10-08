@@ -1,5 +1,5 @@
 {
-  "name": "clayvotingapp",
+  "name": "clay-voting-app",
   "version": "1.0.1",
   "description": "A voting app built on Clementine.js",
   "main": "server.js",
@@ -7,7 +7,7 @@
     "start": "node server.js"
   },
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
     "chart.js": "^2.3.0",
