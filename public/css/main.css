@@ -180,13 +180,23 @@ img {
 	padding-top: 16px;
 }
 
-.github-profile p:nth-child(5) {
+.github-profile p:nth-child(4) {
 	margin-bottom: 16px
 }
 
 .github-profile p {
 	margin: 0 0 0 16px;
 	text-align: left;
+}
+
+.github-profile a {
+	display: inline;
+	margin: 0;
+}
+
+.github-profile .menu-divide {
+	display: inline;
+	margin: 0;
 }
 
 .profile-value {
@@ -200,6 +210,10 @@ span {
 .github-profile > img {
 	padding-top: 16px;
 	margin-bottom: 16px;
+}
+
+#profile-menu {
+	display: inline-block;
 }
 
 .github-profile .menu:hover {

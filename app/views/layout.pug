@@ -10,13 +10,16 @@ html
         link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
     body
         header
-            if isLoggedIn
-                p Signed in as #[span#display-name]
+            if request.isAuthenticated()
+                if request.user.github.displayName
+                    p= 'Signed in as ' + request.user.github.displayName
+                else 
+                    p= 'Signed in as ' + request.user.facebook.displayName
             a.menu(href='/') Home
             p |
             a.menu(href='/profile') Profile
             p |
-            if isLoggedIn
+            if request.isAuthenticated()
                 a.menu(href='/logout') Logout
             else
                 a.menu(href='/login') Login

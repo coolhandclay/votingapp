@@ -33,9 +33,7 @@ module.exports = function (app, passport) {
 		});
 
 	app.route('/profile')
-		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/profile.html');
-		});
+		.get(isLoggedIn, clickHandler.getProfile);
 		
 	app.route('/create/poll')
 		.get(isLoggedIn, function (req, res) {
@@ -56,8 +54,21 @@ module.exports = function (app, passport) {
 
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
-			res.json(req.user.github);
+			if(req.user.github) {
+				res.json(req.user.github);
+			} else {
+				res.json(req.user.facebook);
+			}
 		});
+		
+	app.route('/auth/facebook')
+		.get(passport.authenticate('facebook', { scope: ['email']}));
+
+	app.route('/auth/facebook/callback')
+		.get(passport.authenticate('facebook', {
+			successRedirect: '/',
+			failureRedirect: '/login'
+		}));
 
 	app.route('/auth/github')
 		.get(passport.authenticate('github'));
@@ -70,9 +81,8 @@ module.exports = function (app, passport) {
 		
 	app.route('/api/poll/:id')
 		.get(clickHandler.getPoll);
+		
+	app.route('/delete')
+		.get(clickHandler.deleteUsers);
 
-	app.route('/api/:id/clicks')
-		.get(isLoggedIn, clickHandler.getPolls)
-		.post(isLoggedIn, clickHandler.addClick)
-		.delete(isLoggedIn, clickHandler.resetClicks);
 };

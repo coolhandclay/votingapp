@@ -8,7 +8,13 @@ var User = new Schema({
 		id: String,
 		displayName: String,
 		username: String,
-      publicRepos: Number
+        publicRepos: Number
+	},
+	facebook: {
+	    id: String,
+	    displayName: String,
+	    username: String,
+	    pictureUrl: String
 	},
    myPolls: {
       polls: Array

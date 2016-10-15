@@ -1,6 +1,7 @@
 'use strict';
 
 var GitHubStrategy = require('passport-github').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var User = require('../models/users');
 var configAuth = require('./auth');
 
@@ -14,6 +15,40 @@ module.exports = function (passport) {
 			done(err, user);
 		});
 	});
+	
+	passport.use(new FacebookStrategy({
+		clientID: configAuth.facebookAuth.clientID,
+		clientSecret: configAuth.facebookAuth.clientSecret,
+		callbackURL: configAuth.facebookAuth.callbackURL,
+		profileFields: ['id', 'displayName', 'picture', 'email']
+	},
+	function (token, refreshToken, profile, done) {
+		process.nextTick(function () {
+			User.findOne({ 'facebook.id': profile.id }, function (err, user) {
+				if (err) {
+					return done(err);
+				}
+
+				if (user) {
+					return done(null, user);
+				} else {
+					var newUser = new User();
+					newUser.facebook.id = profile._json.id;
+					newUser.facebook.displayName = profile._json.name;
+					newUser.facebook.username = profile._json.email;
+					newUser.facebook.pictureUrl = profile._json.picture.data.url;
+					newUser.myPolls.polls = [];
+
+					newUser.save(function (err) {
+						if (err) {
+							throw err;
+						}
+						return done(null, newUser);
+					});
+				}
+			});
+		});
+	}));
 
 	passport.use(new GitHubStrategy({
 		clientID: configAuth.githubAuth.clientID,
@@ -35,7 +70,7 @@ module.exports = function (passport) {
 					newUser.github.id = profile.id;
 					newUser.github.username = profile.username;
 					newUser.github.displayName = profile.displayName;
-					newUser.github.publicRepos = profile._json.public_repos;
+					newUser.github.public_repos = profile._json.public_repos;
 					newUser.myPolls.polls = [];
 
 					newUser.save(function (err) {

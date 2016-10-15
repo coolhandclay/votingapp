@@ -1,0 +1,27 @@
+doctype html
+html  
+    head
+        title= 'Satsuma - A Voting App w/ Clementine.js'
+        script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js")
+        link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css')
+        script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js")
+        link(link href="/public/css/main.css" rel="stylesheet" type="text/css")
+        script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js")
+        link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
+    body
+        div.container
+            div.github-profile
+                if githubLogin
+                    img(src='../public/img/gh-mark-32px.png' alt="profile pic")
+                else
+                    img(src='../public/img/facebook-32px.png' alt="profile pic")
+                p
+                    span.profile-value(id="profile-id")= 'ID: ' + profile.id
+                p
+                    span.profile-value(id="profile-display-name")= 'Name: ' + profile.displayName
+                p
+                    span.profile-value(id="profile-email")= 'Username: ' + profile.username
+                div(id='profile-menu')
+                    a.menu(href='/')= 'Home'
+                    p.menu-divide= '|'
+                    a.menu(href='/logout')= 'Logout'

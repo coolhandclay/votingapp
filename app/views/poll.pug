@@ -11,6 +11,7 @@ block content
         br
         a(target='_blank' id='twitter-button')
             button.twitter-share-button.fa.fa-twitter.btn-lg
-    if isLoggedIn
+    if request.isAuthenticated()
+        br
         a.btn-delete(href='/')
             button.btn-danger.btn-sm= 'Delete'

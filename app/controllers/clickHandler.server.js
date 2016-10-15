@@ -5,11 +5,20 @@ var Polls = require('../models/polls.js');
 
 function ClickHandler () {
 	
+	this.getProfile = function (req, res) {
+		var profile;
+		if(req.user.github.id) {
+			profile = req.user.github;	
+		} else {
+			profile = req.user.facebook;
+		}
+		res.render( 'profile', {profile: profile, githubLogin: req.user.github.id} );
+	};
+	
 	this.delete = function (req, res, next) {
 		Polls
 			.findOneAndRemove({ '_id' : req.params.id }, function (err, result) {
 				if(err) {console.error("handler error: " + err);}
-				console.log('removed poll');
 				res.redirect('/');
 			});
 	};
@@ -18,8 +27,8 @@ function ClickHandler () {
 		Polls
 			.findOne({ '_id' : req.params.id })
 			.exec(function (err, result) {
-				if(err) {console.err(err);}
-				res.render('results', { result: result, isLoggedIn: req.isAuthenticated() });
+				if(err) {console.error(err);}
+				res.render('results', { result: result, request: req });
 			});
 	};
 	
@@ -39,11 +48,14 @@ function ClickHandler () {
 	};
 	
 	this.showMy = function (req, res) {
-		Polls
-			.find({ 'createdBy' : req.user.github.username})
+		Polls.find({ 
+			"$or": [ 
+				{ 'createdBy' : req.user.github.username },
+				{ 'createdBy' : req.user.facebook.username } 
+				]})
 			.exec(function (err, polls) {
 				if (err) { throw err; }
-				res.render('polls', {polls: polls, isLoggedIn: req.isAuthenticated() });
+				res.render('polls', {polls: polls, request: req });
 			 });
 	};
 	
@@ -52,7 +64,7 @@ function ClickHandler () {
 			.find({}).sort({ '_id' : -1 })
 			.exec(function (err, polls) {
 				if (err) { throw err; }
-				res.render('polls', { polls: polls, isLoggedIn: req.isAuthenticated() });
+				res.render('polls', { polls: polls, request: req });
 			});
 	};
 	
@@ -61,7 +73,7 @@ function ClickHandler () {
 			.findOne({'_id': req.params.id})
 			.exec(function(err, poll) {
 				if(err) throw err;
-				res.render('poll', { poll: poll, isLoggedIn: req.isAuthenticated() });
+				res.render('poll', { poll: poll, request: req });
 			});
 	};
 
@@ -77,7 +89,12 @@ function ClickHandler () {
 	this.addPoll = function(req, res) {
 		var poll = new Polls();
 		poll.name = req.body.question;
-		poll.createdBy = req.user.github.username;
+		if(req.user.github.username) {
+			poll.createdBy = req.user.github.username;
+		} else {
+			poll.createdBy = req.user.facebook.username;
+		}
+		
 		poll.options = req.body.options.map(function(option) {
 			var output = { name: option, votes: 0 };
 			return output;
@@ -99,28 +116,14 @@ function ClickHandler () {
 				res.json(result);
 			});
 	};
-
-	this.addClick = function (req, res) {
-		Users
-			.findOneAndUpdate({ 'github.id': req.user.github.id }, { $inc: { 'nbrClicks.clicks': 1 } })
-			.exec(function (err, result) {
-					if (err) { throw err; }
-
-					res.json(result.nbrClicks);
-				}
-			);
-	};
-
-	this.resetClicks = function (req, res) {
-		Users
-			.findOneAndUpdate({ 'github.id': req.user.github.id }, {'myPolls.polls': []})
-			.exec(function (err, result) {
-					if (err) { throw err; }
-
-					res.json(result.myPolls);
-				}
-			);
-	};
+	
+	this.deleteUsers = function(req, res) {
+        Users
+            .remove({})
+            .exec(function(err) {
+                if(err) console.error(err);
+            });
+    };
 
 }
 
